@@ -2,12 +2,19 @@
 <html>
   <head>
     <style>
-      #myCanvas { border: 1px solid black }
+      #myCanvas { 
+        border: 1px solid black;
+        background: red
+      }
     </style>
     <script>
       var canvas;
       var context;
-      var i=1;
+      var x = 0;
+      var y = 0;
+      var deltaX = 1.3;
+      var deltaY = 1.7;
+      var radius = 10
 
       function kreis(x, y, radius, farbe) {
         context.beginPath();
@@ -16,11 +23,18 @@
         context.fill();
       }
 
-
       function zeichneUndWarte()
       {
-        i++;
-        kreis(i, 100, 10, 'green');
+        kreis(x, y, radius+1, 'white');
+        x += deltaX;
+        y += deltaY;
+        if (x >= 800 || x <= 0) {
+          deltaX *= -1;
+        }
+        if (y >= 600 || y <= 0) {
+          deltaY *= -1;
+        }
+        kreis(x, y, radius, 'green');
         setTimeout(zeichneUndWarte, 10);
       }
 
