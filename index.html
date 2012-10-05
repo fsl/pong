@@ -1,22 +1,29 @@
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <style>
-          #myCanvas { border: 1px solid black }
-        </style>
-        <script>
-            window.onload = function(){
-                var canvas = document.getElementById("myCanvas");
-                var context = canvas.getContext("2d");
-                context.beginPath();
-                context.arc(100, 100, 10, 0, 2 * Math.PI, false);
-                context.fillStyle = 'green';
-                context.fill();
-            };
-        </script>
-    </head>
-    <body onmousedown="return false;">
-        <canvas id="myCanvas" width="800" height="600">
-        </canvas>
-    </body>
+  <head>
+    <style>
+      #myCanvas { border: 1px solid black }
+    </style>
+    <script>
+      var canvas;
+      var context;
+
+      function kreis(x, y, radius, farbe) {
+        context.beginPath();
+        context.arc(x, y, radius, 0, 2 * Math.PI, false);
+        context.fillStyle = farbe;
+        context.fill();
+      }
+
+      window.onload = function(){
+        canvas = document.getElementById("myCanvas");
+        context = canvas.getContext("2d");
+        kreis(100, 100, 10, 'green');
+      };
+    </script>
+  </head>
+  <body onmousedown="return false;">
+    <canvas id="myCanvas" width="800" height="200">
+    </canvas>
+  </body>
 </html>
