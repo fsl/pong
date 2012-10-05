@@ -7,6 +7,7 @@
     <script>
       var canvas;
       var context;
+      var i=1;
 
       function kreis(x, y, radius, farbe) {
         context.beginPath();
@@ -15,15 +16,23 @@
         context.fill();
       }
 
+
+      function zeichneUndWarte()
+      {
+        i++;
+        kreis(i, 100, 10, 'green');
+        setTimeout(zeichneUndWarte, 10);
+      }
+
       window.onload = function(){
         canvas = document.getElementById("myCanvas");
         context = canvas.getContext("2d");
-        kreis(100, 100, 10, 'green');
+        zeichneUndWarte();
       };
     </script>
   </head>
   <body onmousedown="return false;">
-    <canvas id="myCanvas" width="800" height="200">
+    <canvas id="myCanvas" width="800" height="600">
     </canvas>
   </body>
 </html>
