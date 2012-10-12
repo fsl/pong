@@ -14,7 +14,16 @@
       var y = 0;
       var deltaX = 1.3;
       var deltaY = 1.7;
-      var radius = 10
+      var radius = 10;
+      var paddelLinks = 300;
+      var paddelRechts = 300; 
+
+      function rechteck(x, y, breite, hoehe, farbe) {
+        context.beginPath();
+        context.rect(x, y, breite, hoehe);
+        context.fillStyle = farbe;
+        context.fill();
+      }
 
       function kreis(x, y, radius, farbe) {
         context.beginPath();
@@ -35,6 +44,20 @@
           deltaY *= -1;
         }
         kreis(x, y, radius, 'green');
+
+        rechteck(0, paddelLinks-40, 10, 80, 'blue');
+        rechteck(800-10, paddelRechts-40, 10, 80, 'yellow');
+
+        document.onkeydown = function(e) {
+          e = e || window.event;
+          if(e.keyCode=='38') {
+            alert('up');
+          }
+          else if(e.keyCode=='40') {
+            alert('down');
+          }
+        }
+
         setTimeout(zeichneUndWarte, 10);
       }
 
