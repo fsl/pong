@@ -50,12 +50,14 @@
 
         document.onkeydown = function(e) {
           e = e || window.event;
+          rechteck(0, paddelLinks-40, 10, 80, 'red');
           if(e.keyCode=='38') {
-            alert('up');
+            paddelLinks -= 10;
           }
           else if(e.keyCode=='40') {
-            alert('down');
+            paddelLinks += 10;
           }
+          rechteck(0, paddelLinks-40, 10, 80, 'blue');
         }
 
         setTimeout(zeichneUndWarte, 10);
