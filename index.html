@@ -89,6 +89,14 @@
             paddelRechts += 10;
           }
           zeichneRechtesPaddel(farbePaddel);
+          zeichneLinkesPaddel(farbeHintergrund);
+          if(e.keyCode == '87') {
+            paddelLinks -= 10;
+          }
+          else if(e.keyCode == '83') {
+            paddelLinks += 10;
+          }
+          zeichneLinkesPaddel(farbePaddel);
         }
 
         setTimeout(zeichneUndWarte, 10);
