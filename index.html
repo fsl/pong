@@ -10,9 +10,9 @@
     <script>
       var canvas;
       var context;
-      var x = 0;
-      var y = 0;
-      var deltaX = 1.3;
+      var x = 200;
+      var y = 100;
+      var deltaX = -1.3;
       var deltaY = 1.7;
       var radius = 10;
       var paddelLinks = 300;
@@ -20,7 +20,7 @@
       var spielBreite = 800;
       var spielHoehe = 600;
       var paddelBreite = 10;
-      var paddleHoehe = 80;
+      var paddelHoehe = 80;
       var farbeHintergrund = 'black';
       var farbePaddel = 'white';
       var farbeBall = 'white';
@@ -40,7 +40,7 @@
       }
 
       function zeichnePaddel(x,y, farbe) {
-        rechteck(x, y-paddleHoehe/2, paddelBreite, paddleHoehe, farbe);
+        rechteck(x, y-paddelHoehe/2, paddelBreite, paddelHoehe, farbe);
       }
 
       function zeichneRechtesPaddel(farbe) {
@@ -55,11 +55,23 @@
         kreis(x, y, radius+1, farbeHintergrund);
         x += deltaX;
         y += deltaY;
-        if (x >= spielBreite || x <= 0) {
+        if (x >= spielBreite - radius || x <= radius) {
           deltaX *= -1;
         }
-        if (y >= spielHoehe || y <= 0) {
+        if (y >= spielHoehe - radius || y <= radius) {
           deltaY *= -1;
+        }
+
+        if (x <= paddelBreite + radius) {
+          if (y >= paddelLinks - paddelHoehe/2 && y <= paddelLinks + paddelHoehe/2) {
+            deltaX *= -1;
+          }
+        }
+
+        if (x >= spielBreite - paddelBreite - radius) {
+          if (y >= paddelRechts - paddelHoehe/2 && y <= paddelRechts + paddelHoehe/2) {
+            deltaX *= -1;
+          }
         }
 
         kreis(x, y, radius, farbeBall);
@@ -69,14 +81,14 @@
 
         document.onkeydown = function(e) {
           e = e || window.event;
-          zeichneLinkesPaddel(farbeHintergrund);
-          if(e.keyCode=='38') {
-            paddelLinks -= 10;
+          zeichneRechtesPaddel(farbeHintergrund);
+          if(e.keyCode == '38') {
+            paddelRechts -= 10;
           }
-          else if(e.keyCode=='40') {
-            paddelLinks += 10;
+          else if(e.keyCode == '40') {
+            paddelRechts += 10;
           }
-          zeichneLinkesPaddel(farbePaddel);
+          zeichneRechtesPaddel(farbePaddel);
         }
 
         setTimeout(zeichneUndWarte, 10);
