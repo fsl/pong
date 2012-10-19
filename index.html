@@ -4,7 +4,7 @@
     <style>
       #myCanvas { 
         border: 1px solid black;
-        background: red
+        background: black
       }
     </style>
     <script>
@@ -17,6 +17,13 @@
       var radius = 10;
       var paddelLinks = 300;
       var paddelRechts = 300; 
+      var spielBreite = 800;
+      var spielHoehe = 600;
+      var paddelBreite = 10;
+      var paddleHoehe = 80;
+      var farbeHintergrund = 'black';
+      var farbePaddel = 'white';
+      var farbeBall = 'white';
 
       function rechteck(x, y, breite, hoehe, farbe) {
         context.beginPath();
@@ -32,32 +39,44 @@
         context.fill();
       }
 
-      function zeichneUndWarte()
-      {
-        kreis(x, y, radius+1, 'white');
+      function zeichnePaddel(x,y, farbe) {
+        rechteck(x, y-paddleHoehe/2, paddelBreite, paddleHoehe, farbe);
+      }
+
+      function zeichneRechtesPaddel(farbe) {
+        zeichnePaddel(spielBreite-paddelBreite, paddelRechts, farbe);
+      }
+
+      function zeichneLinkesPaddel(farbe) {
+        zeichnePaddel(0, paddelLinks, farbe);
+      }
+
+      function zeichneUndWarte() {
+        kreis(x, y, radius+1, farbeHintergrund);
         x += deltaX;
         y += deltaY;
-        if (x >= 800 || x <= 0) {
+        if (x >= spielBreite || x <= 0) {
           deltaX *= -1;
         }
-        if (y >= 600 || y <= 0) {
+        if (y >= spielHoehe || y <= 0) {
           deltaY *= -1;
         }
-        kreis(x, y, radius, 'green');
 
-        rechteck(0, paddelLinks-40, 10, 80, 'blue');
-        rechteck(800-10, paddelRechts-40, 10, 80, 'yellow');
+        kreis(x, y, radius, farbeBall);
+
+        zeichneRechtesPaddel(farbePaddel);
+        zeichneLinkesPaddel(farbePaddel);
 
         document.onkeydown = function(e) {
           e = e || window.event;
-          rechteck(0, paddelLinks-40, 10, 80, 'red');
+          zeichneLinkesPaddel(farbeHintergrund);
           if(e.keyCode=='38') {
             paddelLinks -= 10;
           }
           else if(e.keyCode=='40') {
             paddelLinks += 10;
           }
-          rechteck(0, paddelLinks-40, 10, 80, 'blue');
+          zeichneLinkesPaddel(farbePaddel);
         }
 
         setTimeout(zeichneUndWarte, 10);
