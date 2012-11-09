@@ -17,6 +17,7 @@
       var radius = 10;
       var paddelLinks = 300;
       var paddelRechts = 300; 
+      var paddelBewegung = 20; 
       var spielBreite = 800;
       var spielHoehe = 600;
       var paddelBreite = 10;
@@ -24,6 +25,8 @@
       var farbeHintergrund = 'black';
       var farbePaddel = 'white';
       var farbeBall = 'white';
+      var punkteLinks = 0;
+      var punkteRechts = 0;
 
       function rechteck(x, y, breite, hoehe, farbe) {
         context.beginPath();
@@ -51,13 +54,27 @@
         zeichnePaddel(0, paddelLinks, farbe);
       }
 
+      function starteSpielNeu() {
+        x = spielBreite / 2;
+        y = spielHoehe / 2;
+      }
+
       function zeichneUndWarte() {
+        context.fillText(punkteLinks, 10, 40);
+        context.fillText(punkteRechts, spielBreite - 50, 40);
         kreis(x, y, radius+1, farbeHintergrund);
         x += deltaX;
         y += deltaY;
-        if (x >= spielBreite - radius || x <= radius) {
-          deltaX *= -1;
+        if (x >= spielBreite - radius) {
+          punkteLinks += 1;
+          starteSpielNeu();
         }
+
+        if (x <= radius) {
+          punkteRechts += 1;
+          starteSpielNeu();
+        }
+
         if (y >= spielHoehe - radius || y <= radius) {
           deltaY *= -1;
         }
@@ -83,18 +100,18 @@
           e = e || window.event;
           zeichneRechtesPaddel(farbeHintergrund);
           if(e.keyCode == '38') {
-            paddelRechts -= 10;
+            paddelRechts -= paddelBewegung;
           }
           else if(e.keyCode == '40') {
-            paddelRechts += 10;
+            paddelRechts += paddelBewegung;
           }
           zeichneRechtesPaddel(farbePaddel);
           zeichneLinkesPaddel(farbeHintergrund);
           if(e.keyCode == '87') {
-            paddelLinks -= 10;
+            paddelLinks -= paddelBewegung;
           }
           else if(e.keyCode == '83') {
-            paddelLinks += 10;
+            paddelLinks += paddelBewegung;
           }
           zeichneLinkesPaddel(farbePaddel);
         }
@@ -105,6 +122,7 @@
       window.onload = function(){
         canvas = document.getElementById("myCanvas");
         context = canvas.getContext("2d");
+        context.font = "normal 40px Courier New";
         zeichneUndWarte();
       };
     </script>
