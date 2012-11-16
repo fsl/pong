@@ -92,8 +92,10 @@
         // Am Paddel abprallen
         if (x <= paddelBreite + radius) {
           if (y >= paddelLinks - paddelHoehe/2 && y <= paddelLinks + paddelHoehe/2) {
+            var ablenkung = (paddelLinks-y) * 0.05;
+            deltaX -= ablenkung;
+            deltaY -= ablenkung;
             deltaX *= -1;
-            deltaY -= (paddelLinks-y) * 0.05;
           }
         }
 
