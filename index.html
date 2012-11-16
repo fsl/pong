@@ -31,6 +31,9 @@
       var farbePunkte = 'white';
       var punkteLinks = 0;
       var punkteRechts = 0;
+      var ballBild = new Image(); 
+      var paddelLinksBild = new Image(); 
+      var paddelRechtsBild = new Image(); 
 
       function rechteck(x, y, breite, hoehe, farbe) {
         context.beginPath();
@@ -51,7 +54,13 @@
       }
 
       function zeichneRechtesPaddel(farbe) {
-        zeichnePaddel(spielBreite-paddelBreite, paddelRechts, farbe);
+        if (farbe == farbeHintergrund) {
+          zeichnePaddel(spielBreite-paddelBreite, paddelRechts, farbe);
+        } else {
+          context.drawImage(paddelRechtsBild,  spielBreite-paddelBreite,
+                            paddelRechts-paddelHoehe/2);
+        }
+
       }
 
       function zeichneLinkesPaddel(farbe) {
@@ -115,7 +124,8 @@
           }
         }
 
-        kreis(x, y, radius, farbeBall);
+        context.drawImage(ballBild, x-radius, y-radius);
+        //kreis(x, y, radius, farbeBall);
 
         zeichneRechtesPaddel(farbePaddel);
         zeichneLinkesPaddel(farbePaddel);
@@ -154,6 +164,9 @@
       }
 
       window.onload = function(){
+        ballBild.src = 'bilder/ball.png';
+        paddelLinksBild.src = 'bilder/paddel_links.png';
+        paddelRechtsBild.src = 'bilder/paddel_blau.png';
         canvas = document.getElementById("myCanvas");
         context = canvas.getContext("2d");
         context.font = "normal 40px Courier New";
