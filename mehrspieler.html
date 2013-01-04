@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> 
+	<title>Pong</title>
+    <style>
+      #myCanvas { 
+        border: 1px solid black
+	  }
+    </style>
+    <script>
+      var canvas;
+      var context;
+	  var hintergrund = new Image();
+      var x = 200;
+      var y = 100;
+      var ballGeschwindigkeit = 3;
+      var deltaX = -2;
+      var deltaY = 2;
+      var radius = 10;
+      var paddelLinks = 300;
+      var paddelRechts = 300; 
+      var deltaPaddelLinks = 0;
+      var deltaPaddelRechts = 0; 
+      var paddelBewegung = 5;
+      var spielBreite = 800;
+      var spielHoehe = 600;
+      var paddelBreite = 10;
+      var paddelHoehe = 80;
+      var farbeHintergrund = 'black';
+      var farbePaddel = 'white';
+      var farbeBall = 'white';
+      var farbePunkte = '#111E15';
+      var punkteLinks = 0;
+      var punkteRechts = 0;
+      var ballBild = new Image(); 
+      var paddelLinksBild = new Image(); 
+      var paddelRechtsBild = new Image(); 
+	  var beenden = 0;
+
+      function zeichneRechtesPaddel() {
+          context.drawImage(paddelRechtsBild,  spielBreite-paddelBreite,  paddelRechts-paddelHoehe/2);
+      }
+
+      function zeichneLinkesPaddel() {
+          context.drawImage(paddelLinksBild,  0, paddelLinks-paddelHoehe/2);
+      }
+
+      function starteSpielNeu() {
+        x = spielBreite / 2;
+        y = spielHoehe / 2;
+		deltaX = 2;
+		deltaY = 2;
+      }
+
+      function zeichneUndWarte() {
+		context.drawImage(hintergrund, 0, 0);
+        context.fillStyle = farbePunkte;
+        context.fillText(punkteLinks, 300, 70);
+        context.fillText(punkteRechts, 466, 70);
+
+        // Bewege Ball
+        x += deltaX;
+        y += deltaY;
+
+        // Bewege Paddels
+        paddelLinks += deltaPaddelLinks;
+        paddelRechts += deltaPaddelRechts;
+
+        // Ball geht links aus
+        if (x >= spielBreite - radius) {
+          punkteLinks += 1;
+          starteSpielNeu();
+        }
+
+        // Ball geht rechts aus
+        if (x <= radius) {
+          punkteRechts += 1;
+          starteSpielNeu();
+        }
+
+        // Oben und unten abprallen
+        if (y >= spielHoehe - radius || y <= radius) {
+          deltaY *= -1.01;
+        }
+
+        // Am Paddel abprallen
+        if (x <= paddelBreite + radius) {
+          if (y >= paddelLinks - paddelHoehe/2 && y <= paddelLinks + paddelHoehe/2) {
+            deltaX *= -1.05;
+          }
+        }
+
+        if (x >= spielBreite - paddelBreite - radius) {
+          if (y >= paddelRechts - paddelHoehe/2 && y <= paddelRechts + paddelHoehe/2) {
+            deltaX *= -1;
+          }
+        }
+        context.drawImage(ballBild, x-radius, y-radius);
+
+        zeichneRechtesPaddel(farbePaddel);
+        zeichneLinkesPaddel(farbePaddel);
+
+        document.onkeydown = function(e) {
+          e = e || window.event;
+          if(e.keyCode == '27') {
+		    beenden = 1;
+          }
+          if(e.keyCode == '40') {
+            deltaPaddelRechts = paddelBewegung
+          }
+          if(e.keyCode == '38') {
+            deltaPaddelRechts = -paddelBewegung;
+		  }
+          if(e.keyCode == '87') {
+            deltaPaddelLinks = -paddelBewegung;
+          }
+          else if(e.keyCode == '83') {
+            deltaPaddelLinks = paddelBewegung;
+          }
+        }
+		
+		if (beenden == 1) {
+		  window.open('index.html', '_self');
+		}
+		
+        document.onkeyup = function(e) {
+          e = e || window.event;
+          if(e.keyCode == '38') {
+            deltaPaddelRechts = 0;
+          }
+          if(e.keyCode == '40') {
+            deltaPaddelRechts = 0;
+          }
+          if(e.keyCode == '87') {
+            deltaPaddelLinks = 0;
+          }
+          else if(e.keyCode == '83') {
+            deltaPaddelLinks = 0;
+          }
+        }		
+		
+		if (paddelLinks+paddelHoehe <= 0) {
+			paddelLinks = spielHoehe-1;
+		}
+		if (paddelLinks-paddelHoehe >= spielHoehe) {
+			paddelLinks = 1;
+		}
+		if (paddelRechts+paddelHoehe <= 0) {
+			paddelRechts = spielHoehe-1;
+		}
+		else if (paddelRechts-paddelHoehe >= spielHoehe) {
+			paddelRechts = 1;
+		}
+		
+        setTimeout(zeichneUndWarte, 10);
+      }
+
+      window.onload = function(){
+	    hintergrund.src = 'bilder/feld.png'
+        ballBild.src = 'bilder/ball.png';
+        paddelLinksBild.src = 'bilder/paddel_rot.png';
+        paddelRechtsBild.src = 'bilder/paddel_blau.png';
+        canvas = document.getElementById("myCanvas");
+        context = canvas.getContext("2d");
+        context.font = "normal 40px Courier New";
+
+        zeichneUndWarte();
+      };
+    </script>
+  </head>
+  <body onmousedown="return false;">
+    <canvas id="myCanvas" width="800" height="600">
+    </canvas>
+  </body>
+</html>

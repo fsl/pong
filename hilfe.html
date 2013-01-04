@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> 
+	<title>Pong-->Hilfe</title>
+    <style>
+      #myCanvas { 
+        border: 1px solid black;
+      }
+    </style>
+    <script type="text/javascript">
+      var canvas;
+      var context;
+	  var hintergrund = new Image();
+
+      window.onload = function(){
+	    hintergrund.src = 'bilder/hintergrund_Hilfe.png'
+        canvas = document.getElementById("myCanvas");
+        context = canvas.getContext("2d");
+		context.drawImage(hintergrund, 0, 0);
+      };
+    </script>
+  </head>
+  <body onmousedown="return false;">
+    <canvas id="myCanvas" width="800" height="600">
+    </canvas>
+  </body>
+</html>
