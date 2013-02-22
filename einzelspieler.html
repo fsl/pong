@@ -18,8 +18,8 @@
       var deltaX = -2;
       var deltaY = 2;
       var radius = 10;
-      var paddelLinks = 300;
       var paddelRechts = 300;
+      var paddelLinks = 300;
 	  var paddelZiel = 300;
       var deltaPaddelLinks = 0;
       var deltaPaddelRechts = 0; 
@@ -38,7 +38,9 @@
       var paddelLinksBild = new Image(); 
       var paddelRechtsBild = new Image(); 
 	  var paddelKIBewegung = 1;
-	  var beenden = 0;
+	  var beenden = 0;     
+
+ 
 	  
 	  function zufallszahl(von, bis) {
 		return Math.round(Math.random()*(bis-von)+von);
@@ -73,11 +75,7 @@
 		
 		if (x >= spielBreite - radius) {
 		  paddelZiel = y;
-		}
-		else if (zeit == 500) {
-		  setTimeout(berechneStrecke(deltaX, deltaY, x, y, 0),5)
-		}
-		else {
+		} else {
 		  berechneStrecke(deltaX, deltaY, x, y, zeit)
 		}
 	  }  
@@ -159,28 +157,13 @@
 			paddelLinks = 1;
 		}
 		
-		paddelKIBewegung = zufallszahl(1,3)
-		
-		//if (paddelKIBewegung == 1 /*|| paddelKIBewegung == 2*/) {
-		  if ( paddelRechts >= paddelZiel) {
-		    paddelRechts -= 2,5;
-		  }
-		  if (paddelRechts == paddelZiel) {
-		    
-		  }
-		  else if (paddelRechts <= paddelZiel) {
-			paddelRechts += 2,5;
-		  }
-		//}
-		/*else if (paddelKIBewegung == 5) {
-		  if ( paddelRechts >= paddelZiel) {
-			paddelRechts += 5;
-		  }
-		  else if (paddelRechts <= paddelZiel) {
-			paddelRechts -= 5;
-		  }
-		}*/
-		
+		if ( paddelRechts >= paddelZiel+2) {
+		  paddelRechts -= 2;
+		}
+        
+		else if (paddelRechts <= paddelZiel-2) {
+		  paddelRechts += 2;
+		}
 		if (beenden == 1) {
 		  window.open('index.html', '_self');
 		}
@@ -189,7 +172,6 @@
       }
 
       window.onload = function(){
-	    'start'
 	    hintergrund.src = 'bilder/feld.png'
         ballBild.src = 'bilder/ball.png';
         paddelLinksBild.src = 'bilder/paddel_rot.png';

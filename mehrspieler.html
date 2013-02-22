@@ -101,6 +101,26 @@
         zeichneRechtesPaddel(farbePaddel);
         zeichneLinkesPaddel(farbePaddel);
 
+		
+		if (paddelLinks+paddelHoehe <= 0) {
+			paddelLinks = spielHoehe-1;
+		}
+		if (paddelLinks-paddelHoehe >= spielHoehe) {
+			paddelLinks = 1;
+		}
+		if (paddelRechts+paddelHoehe <= 0) {
+			paddelRechts = spielHoehe-1;
+		}
+		else if (paddelRechts-paddelHoehe >= spielHoehe) {
+			paddelRechts = 1;
+		}
+		if (beenden == 1) {
+		  window.open('index.html', '_self');
+		}
+        setTimeout(zeichneUndWarte, 10);
+      }
+      
+      function initialisiereTasten() {
         document.onkeydown = function(e) {
           e = e || window.event;
           if(e.keyCode == '27') {
@@ -120,9 +140,6 @@
           }
         }
 		
-		if (beenden == 1) {
-		  window.open('index.html', '_self');
-		}
 		
         document.onkeyup = function(e) {
           e = e || window.event;
@@ -139,23 +156,8 @@
             deltaPaddelLinks = 0;
           }
         }		
-		
-		if (paddelLinks+paddelHoehe <= 0) {
-			paddelLinks = spielHoehe-1;
-		}
-		if (paddelLinks-paddelHoehe >= spielHoehe) {
-			paddelLinks = 1;
-		}
-		if (paddelRechts+paddelHoehe <= 0) {
-			paddelRechts = spielHoehe-1;
-		}
-		else if (paddelRechts-paddelHoehe >= spielHoehe) {
-			paddelRechts = 1;
-		}
-		
-        setTimeout(zeichneUndWarte, 10);
       }
-
+      
       window.onload = function(){
 	    hintergrund.src = 'bilder/feld.png'
         ballBild.src = 'bilder/ball.png';
@@ -164,7 +166,7 @@
         canvas = document.getElementById("myCanvas");
         context = canvas.getContext("2d");
         context.font = "normal 40px Courier New";
-
+        initialisiereTasten()
         zeichneUndWarte();
       };
     </script>
